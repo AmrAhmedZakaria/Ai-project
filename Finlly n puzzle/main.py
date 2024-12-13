@@ -25,10 +25,10 @@ class Game:
         self.high_score_medium = float(self.get_high_scores()[1])
         self.high_score_hard = float(self.get_high_scores()[2])
 
-    def get_high_scores(self):
-        with open("high_scores.txt", "r") as file:
-            scores = file.read().splitlines()
-        return scores
+    # def get_high_scores(self):
+    #     with open("high_scores.txt", "r") as file:
+    #         scores = file.read().splitlines()
+    #     return scores
 
     def save_score(self):
         with open("high_scores.txt", "w") as file:
@@ -38,10 +38,12 @@ class Game:
 
     def create_game(self, game_size):
         grid = [
-            [x + y * game_size for x in range(1, game_size + 1)] for y in range(game_size)]
+            [x + y * game_size for x in range(1, game_size + 1)]
+            for y in range(game_size)
+        ]
         grid[-1][-1] = 0
         return grid
-
+# my name is amr ahmed
     def Start(self):
         possible_moves = []
         for row, tiles in enumerate(self.tiles):
@@ -61,31 +63,41 @@ class Game:
 
         if self.previous_choice == "right":
             possible_moves.remove(
-                "left") if "left" in possible_moves else possible_moves
+                "left"
+            ) if "left" in possible_moves else possible_moves
         elif self.previous_choice == "left":
             possible_moves.remove(
-                "right") if "right" in possible_moves else possible_moves
+                "right"
+            ) if "right" in possible_moves else possible_moves
         elif self.previous_choice == "up":
             possible_moves.remove(
-                "down") if "down" in possible_moves else possible_moves
+                "down"
+            ) if "down" in possible_moves else possible_moves
         elif self.previous_choice == "down":
-            possible_moves.remove(
-                "up") if "up" in possible_moves else possible_moves
+            possible_moves.remove("up") if "up" in possible_moves else possible_moves
 
         self.choice = random.choice(possible_moves)
         self.previous_choice = self.choice
         if self.choice == "right":
-            self.tiles_grid[row][col], self.tiles_grid[row][col + 1] = self.tiles_grid[row][col + 1], \
-                self.tiles_grid[row][col]
+            self.tiles_grid[row][col], self.tiles_grid[row][col + 1] = (
+                self.tiles_grid[row][col + 1],
+                self.tiles_grid[row][col],
+            )
         elif self.choice == "left":
-            self.tiles_grid[row][col], self.tiles_grid[row][col - 1] = self.tiles_grid[row][col - 1], \
-                self.tiles_grid[row][col]
+            self.tiles_grid[row][col], self.tiles_grid[row][col - 1] = (
+                self.tiles_grid[row][col - 1],
+                self.tiles_grid[row][col],
+            )
         elif self.choice == "up":
-            self.tiles_grid[row][col], self.tiles_grid[row - 1][col] = self.tiles_grid[row - 1][col], \
-                self.tiles_grid[row][col]
+            self.tiles_grid[row][col], self.tiles_grid[row - 1][col] = (
+                self.tiles_grid[row - 1][col],
+                self.tiles_grid[row][col],
+            )
         elif self.choice == "down":
-            self.tiles_grid[row][col], self.tiles_grid[row + 1][col] = self.tiles_grid[row + 1][col], \
-                self.tiles_grid[row][col]
+            self.tiles_grid[row][col], self.tiles_grid[row + 1][col] = (
+                self.tiles_grid[row + 1][col],
+                self.tiles_grid[row][col],
+            )
 
     def new(self):
         self.all_sprites = pygame.sprite.Group()
@@ -106,8 +118,7 @@ class Game:
 
     def draw_buttons(self):
         self.buttons_list = []
-        self.buttons_list.append(
-            Button(self, 775, 100, "Start", 200, 50))
+        self.buttons_list.append(Button(self, 775, 100, "Start", 200, 50))
         Button(self, 775, 450, "Auto solve", 200, 50)
         self.buttons_list.append(Button(self, 775, 170, "Reset", 200, 50))
         self.buttons_list.append(Button(self, 690, 240, "Easy", 100, 50))
@@ -122,7 +133,7 @@ class Game:
                 if tile != 0:
                     self.tiles[row].append(Tile(self, col, row, str(tile)))
                 else:
-                    self.tiles[row].append(Tile(self, col, row, "empty"))
+                    self.tiles[row].append(Tile(self, col, row, "empty luffy"))
 
     def run(self):
         self.playing = True
@@ -141,17 +152,29 @@ class Game:
                 self.start_game = False
                 if self.game_choice == EASY:
                     if self.high_score_easy > 0:
-                        self.high_score_easy = self.elapsed_time if self.elapsed_time < self.high_score_easy else self.high_score_easy
+                        self.high_score_easy = (
+                            self.elapsed_time
+                            if self.elapsed_time < self.high_score_easy
+                            else self.high_score_easy
+                        )
                     else:
                         self.high_score_easy = self.elapsed_time
                 elif self.game_choice == MEDIUM:
                     if self.high_score_medium > 0:
-                        self.high_score_medium = self.elapsed_time if self.elapsed_time < self.high_score_medium else self.high_score_medium
+                        self.high_score_medium = (
+                            self.elapsed_time
+                            if self.elapsed_time < self.high_score_medium
+                            else self.high_score_medium
+                        )
                     else:
                         self.high_score_medium = self.elapsed_time
                 elif self.game_choice == HARD:
                     if self.high_score_hard > 0:
-                        self.high_score_hard = self.elapsed_time if self.elapsed_time < self.high_score_hard else self.high_score_hard
+                        self.high_score_hard = (
+                            self.elapsed_time
+                            if self.elapsed_time < self.high_score_hard
+                            else self.high_score_hard
+                        )
                     else:
                         self.high_score_hard = self.elapsed_time
                 self.save_score()
@@ -174,11 +197,9 @@ class Game:
 
     def draw_grid(self):
         for row in range(-1, self.game_choice, TILESIZE):
-            pygame.draw.line(self.screen, LIGHTGREY, (row, 0),
-                             (row, self.game_choice))
+            pygame.draw.line(self.screen, LIGHTGREY, (row, 0), (row, self.game_choice))
         for col in range(-1, self.game_choice, TILESIZE):
-            pygame.draw.line(self.screen, LIGHTGREY, (0, col),
-                             (self.game_choice, col))
+            pygame.draw.line(self.screen, LIGHTGREY, (0, col), (self.game_choice, col))
 
     def draw(self):
         self.screen.fill(BGCOLOUR)
@@ -187,15 +208,21 @@ class Game:
         if self.game_choice == EASY:
             UIElement(840, 320, "Easy").draw(self.screen, 30)
             self.draw_high_score(
-                "High Score - %.3f" % (self.high_score_easy if self.high_score_easy > 0 else 0))
+                "High Score - %.3f"
+                % (self.high_score_easy if self.high_score_easy > 0 else 0)
+            )
         elif self.game_choice == MEDIUM:
             UIElement(820, 320, "Medium").draw(self.screen, 30)
             self.draw_high_score(
-                "High Score - %.3f" % (self.high_score_medium if self.high_score_medium > 0 else 0))
+                "High Score - %.3f"
+                % (self.high_score_medium if self.high_score_medium > 0 else 0)
+            )
         elif self.game_choice == HARD:
-            UIElement(840, 320, "Hard").draw(self.screen, 30)
+            UIElement(840, 320, "Hard ya amar").draw(self.screen, 30)
             self.draw_high_score(
-                "High Score - %.3f" % (self.high_score_hard if self.high_score_hard > 0 else 0))
+                "High Score beeli jlkajsd - %.3f"
+                % (self.high_score_hard if self.high_score_hard > 0 else 0)
+            )
         self.draw_timer("%.3f" % self.elapsed_time)
         pygame.display.flip()
 
@@ -210,24 +237,40 @@ class Game:
                     for col, tile in enumerate(tiles):
                         if tile.click(mouse_x, mouse_y):
                             if tile.right() and self.tiles_grid[row][col + 1] == 0:
-                                self.tiles_grid[row][col], self.tiles_grid[row][col + 1] = self.tiles_grid[row][
-                                    col + 1], \
-                                    self.tiles_grid[row][col]
+                                (
+                                    self.tiles_grid[row][col],
+                                    self.tiles_grid[row][col + 1],
+                                ) = (
+                                    self.tiles_grid[row][col + 1],
+                                    self.tiles_grid[row][col],
+                                )
 
                             elif tile.left() and self.tiles_grid[row][col - 1] == 0:
-                                self.tiles_grid[row][col], self.tiles_grid[row][col - 1] = self.tiles_grid[row][
-                                    col - 1], \
-                                    self.tiles_grid[row][col]
+                                (
+                                    self.tiles_grid[row][col],
+                                    self.tiles_grid[row][col - 1],
+                                ) = (
+                                    self.tiles_grid[row][col - 1],
+                                    self.tiles_grid[row][col],
+                                )
 
                             elif tile.up() and self.tiles_grid[row - 1][col] == 0:
-                                self.tiles_grid[row][col], self.tiles_grid[row - 1][col] = self.tiles_grid[row - 1][
-                                    col], \
-                                    self.tiles_grid[row][col]
+                                (
+                                    self.tiles_grid[row][col],
+                                    self.tiles_grid[row - 1][col],
+                                ) = (
+                                    self.tiles_grid[row - 1][col],
+                                    self.tiles_grid[row][col],
+                                )
 
                             elif tile.down() and self.tiles_grid[row + 1][col] == 0:
-                                self.tiles_grid[row][col], self.tiles_grid[row + 1][col] = self.tiles_grid[row + 1][
-                                    col], \
-                                    self.tiles_grid[row][col]
+                                (
+                                    self.tiles_grid[row][col],
+                                    self.tiles_grid[row + 1][col],
+                                ) = (
+                                    self.tiles_grid[row + 1][col],
+                                    self.tiles_grid[row][col],
+                                )
                             self.draw_tiles()
                             self.moves += 1
 

@@ -1,4 +1,3 @@
-
 WHITE = (238, 238, 238)
 BLACK = (34, 40, 49)
 DARKGREY = (34, 40, 49)
@@ -12,12 +11,10 @@ YELLOW = (255, 255, 0)
 WIDTH = 1100
 HEIGHT = 641
 FPS = 60
-title = "N Puzzle Game"
+title = "N Puzzle Game play real"
 BGCOLOUR = DARKGREY
 TILESIZE = 128
 
 EASY = 3 * TILESIZE
 MEDIUM = 4 * TILESIZE
 HARD = 5 * TILESIZE
-
-
